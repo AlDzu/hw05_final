@@ -57,7 +57,6 @@ def post_detail(request, post_id):
     selected_post = get_object_or_404(Post, id=post_id)
     comments = selected_post.comments.all()
     comments_form = CommentForm(request.POST or None)
-    # не знаю зачем, но тесты требуют
     user_posts = Post.objects.filter(author=selected_post.author)
     post = user_posts.count()
     title = selected_post.text[:30]
