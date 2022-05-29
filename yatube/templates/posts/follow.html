@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}Подписки{% endblock %}
+{% block header %}Подписки{% endblock %}
+{% block content %}
+{% include 'posts/includes/switcher.html' %}
+  {% for post in posts %}
+    <ul>
+      <li>
+        Автор: <a href="{% url 'posts:profile' post.author %}">{{ post.author.get_full_name }}</a>
+      </li>
+      <li>
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
+    <p>{% thumbnail item.image "100x100" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      {% endthumbnail %}
+      {{ post.text|linebreaks }}
+    </p>
+    {% if post.group %}   
+      <a href="{% url 'posts:group' post.group.slug %}">все записи группы</a>
+    {% endif %} 
+    <a href="{% url 'posts:post_detail' post.id %}">подробная информация</a>
+    {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %}
+{% endblock %}

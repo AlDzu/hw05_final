@@ -1,0 +1,34 @@
+<!-- templates/posts/index.html -->
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}Последние обновления на сайте{% endblock %}
+{% block header %}Последние обновления на сайте{% endblock %}
+{% block content %}
+  {% include 'posts/includes/switcher.html' %}
+
+  {% for post in page_obj %}
+  <ul>
+    <li>
+      Автор: <a href="{% url 'posts:profile' post.author %}">{{ post.author.get_full_name }}</a>
+    </li>
+    <li>
+      Дата публикации: {{ post.pub_date|date:"d E Y" }}
+    </li>
+  </ul>
+  <p>{% thumbnail item.image "100x100" crop="center" as im %}
+      <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
+    {{ post.text|linebreaks }}
+  </p>
+  
+    {% if post.group %}   
+      <a href="{% url 'posts:group' post.group.slug %}">
+        все записи группы
+      </a>
+    {% endif %}
+    <a href="{% url 'posts:post_detail' post.id %}">подробная информация</a>
+    {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %}
+  {% include 'posts/includes/paginator.html' %}
+{% endblock %}

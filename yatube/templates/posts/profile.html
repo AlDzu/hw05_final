@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}Профайл пользователя {% endblock %}
+{% block header %}Профайл пользователя {% endblock %}
+{% block content %}
+  <main>
+  <div class="container py-5">        
+    <h1>Все посты пользователя {{ user_info.get_full_name }} </h1>
+
+    <h3>Всего постов: {{ user_posts.count }} </h3>
+    {% if following %}
+    <a
+      class="btn btn-lg btn-light"
+      href="{% url 'posts:profile_unfollow' user_info.username %}" role="button"
+    >
+      Отписаться
+    </a>
+  {% else %}
+      <a
+        class="btn btn-lg btn-primary"
+        href="{% url 'posts:profile_follow' user_info.username %}" role="button"
+      >
+        Подписаться
+      </a>
+   {% endif %}
+    {% for user_posts in page_obj %}
+      <ul>
+        <li>
+          Дата публикации: {{ user_posts.pub_date|date:"d E Y" }}
+        </li>
+      </ul>
+      <p>
+        {% thumbnail item.image "100x100" crop="center" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+        {{ user_posts.text|linebreaks }}
+      </p>
+      {% if user_posts.group %}   
+      <a href="{% url 'posts:group' user_posts.group.slug %}">все записи группы</a>
+      {% endif %} 
+      {% if not forloop.last %}
+        <hr>
+      {% endif %}
+    {% endfor %}
+  {% include 'posts/includes/paginator.html' %}
+  </div>
+  </main>
+  </body>
+</html>
+{% endblock %}
