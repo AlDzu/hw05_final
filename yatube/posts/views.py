@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_page
 from posts.settings import NUMBER_OF_POSTS
 
 from .forms import CommentForm, PostForm
-from .models import Follow, Group, Post, User  # , Comment
+from .models import Follow, Group, Post, User
 
 
 @cache_page(20, key_prefix='index_page')
@@ -56,6 +56,8 @@ def profile(request, username):
 def post_detail(request, post_id):
     selected_post = get_object_or_404(Post, id=post_id)
     comments = selected_post.comments.all()
+    comments_form = CommentForm(request.POST or None)
+    # не знаю зачем, но тесты требуют
     user_posts = Post.objects.filter(author=selected_post.author)
     post = user_posts.count()
     title = selected_post.text[:30]
@@ -64,6 +66,7 @@ def post_detail(request, post_id):
         'post': post,  # его длина
         'title': title,  # его титул
         'comments': comments,  # комментарии поста
+        'comments_form': comments_form,
     }
     return render(request, 'posts/post_detail.html', context)
 

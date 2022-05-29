@@ -53,8 +53,7 @@
 <input type="hidden" name="csrfmiddlewaretoken" value="">{% csrf_token %}
 <div class="form-group mb-2">
 
-<textarea name="text" cols="40" rows="10" class="form-control" required id="id_text">
-</textarea>
+  {{ comments_form.text|addclass:"form-control" }}
 
 </div>
 <button type="submit" class="btn btn-primary">Отправить</button>
