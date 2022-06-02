@@ -236,7 +236,9 @@ class PostsPagesTests(TestCase):
             text='Новый комментарий'
         )
         response_comment = self.autorized_author.get(self.URL_POST_2_DETAIL)
-        post_comment = response_comment.context.get('selected_post').comments.all()
+        post_comment = response_comment.context.get(
+            'selected_post'
+        ).comments.all()
         self.assertEqual(new_comment, post_comment[0])
 
     def test_follow(self):

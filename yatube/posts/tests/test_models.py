@@ -25,13 +25,13 @@ class PostsModelTest(TestCase):
             text='Тестовая пост',
         )
         cls.comment = Comment.objects.create(
-            post = cls.post,
-            author = cls.user,
-            text = 'Тестовый комментарий',
+            post=cls.post,
+            author=cls.user,
+            text='Тестовый комментарий',
         )
         cls.follow = Follow.objects.create(
-            user = cls.user,
-            author = cls.user2,
+            user=cls.user,
+            author=cls.user2,
         )
 
     @classmethod

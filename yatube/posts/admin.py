@@ -33,6 +33,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'author', 'text', 'created')
     list_filter = ('created',)
 
+
 @admin.register(Follow)
 class FollowAdmin(admin.ModelAdmin):
     list_display = ('user', 'author')

@@ -4,7 +4,6 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 # from django.views.decorators.cache import cache_page теперь в шаблоне
 from posts.settings import NUMBER_OF_POSTS
-from pyparsing import And
 
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post, User
@@ -65,7 +64,8 @@ def post_detail(request, post_id):
         'selected_post': selected_post,  # выбранный пост
         'post': post,  # его длина
         'title': title,  # его титул
-        #'comments': comments,  # комментарии поста, теперь достаётся в шаблоне
+        # 'comments': comments,
+        # # комментарии поста, теперь достаётся в шаблоне
         'comments_form': comments_form,
     }
     return render(request, 'posts/post_detail.html', context)
