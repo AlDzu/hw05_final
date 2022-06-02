@@ -111,8 +111,8 @@ class PostsPagesTests(TestCase):
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        cache.clear()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+        cache.clear()
 
     def test_index_true_template(self):
         """Урл использует верный шаблон"""
@@ -236,8 +236,8 @@ class PostsPagesTests(TestCase):
             text='Новый комментарий'
         )
         response_comment = self.autorized_author.get(self.URL_POST_2_DETAIL)
-        post_comment = response_comment.context.get('comments')[0]
-        self.assertEqual(new_comment, post_comment)
+        post_comment = response_comment.context.get('selected_post').comments.all()
+        self.assertEqual(new_comment, post_comment[0])
 
     def test_follow(self):
         """Тест подписки/отписки"""

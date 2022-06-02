@@ -62,6 +62,7 @@
 </div>
 {% endif %}
 
+{% with comments=selected_post.comments.all %}
 {% for comment in comments %}
   <div class="media mb-4">
     <div class="media-body">
@@ -76,7 +77,7 @@
       </div>
     </div>
 {% endfor %} 
-
+{% endwith %}
 
       </div> 
     </main>

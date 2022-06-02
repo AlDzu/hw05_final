@@ -1,13 +1,16 @@
 <!-- templates/posts/index.html -->
 {% extends 'base.html' %}
+{% load cache %}
 {% load thumbnail %}
 {% load static %}
 {% block title %}Последние обновления на сайте{% endblock %}
 {% block header %}Последние обновления на сайте{% endblock %}
 {% block content %}
   {% include 'posts/includes/switcher.html' %}
-
+  
+  {% cache 20 index_page %}
   {% for post in page_obj %}
+  
   <ul>
     <li>
       Автор: <a href="{% url 'posts:profile' post.author %}">{{ post.author.get_full_name }}</a>
@@ -29,6 +32,9 @@
     {% endif %}
     <a href="{% url 'posts:post_detail' post.id %}">подробная информация</a>
     {% if not forloop.last %}<hr>{% endif %}
+ 
   {% endfor %}
+
   {% include 'posts/includes/paginator.html' %}
+  {% endcache %}
 {% endblock %}

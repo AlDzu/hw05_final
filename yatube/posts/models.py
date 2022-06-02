@@ -53,13 +53,13 @@ class Comment(models.Model):
         Post,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='post',
+        verbose_name='Пост',
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='author',
+        verbose_name='Автор',
     )
     text = models.TextField(
         'Текст комментария',
@@ -92,3 +92,15 @@ class Follow(models.Model):
     class Meta:
         verbose_name = 'Подписка'
         ordering = ('-author',)
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q('user' != 'author'),
+                name='Check'
+                ),
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name='unique'
+            )
+        ]
+
+

@@ -1,5 +1,11 @@
 # templates/core/403csrf.html
 {% extends "base.html" %}
+<header>
+  {% include 'includes/header.html' %}
+</header>
 {% block content %}
   <h1>Custom CSRF check error. 403</h1>
 {% endblock %}
+<footer>
+  {% include 'includes/footer.html' %} 
+</footer>
