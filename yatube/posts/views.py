@@ -2,14 +2,12 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
-# from django.views.decorators.cache import cache_page теперь в шаблоне
 from posts.settings import NUMBER_OF_POSTS
 
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post, User
 
 
-# @cache_page(20, key_prefix='index_page') теперь в шаблоне
 def index(request):
     post_list = Post.objects.all()
     paginator = Paginator(post_list, NUMBER_OF_POSTS)
@@ -55,7 +53,6 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     selected_post = get_object_or_404(Post, id=post_id)
-    # comments = selected_post.comments.all() теперь достаётся в шаблоне
     comments_form = CommentForm(request.POST or None)
     user_posts = Post.objects.filter(author=selected_post.author)
     post = user_posts.count()
@@ -64,8 +61,6 @@ def post_detail(request, post_id):
         'selected_post': selected_post,  # выбранный пост
         'post': post,  # его длина
         'title': title,  # его титул
-        # 'comments': comments,
-        # # комментарии поста, теперь достаётся в шаблоне
         'comments_form': comments_form,
     }
     return render(request, 'posts/post_detail.html', context)

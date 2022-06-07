@@ -92,13 +92,13 @@ class Follow(models.Model):
     class Meta:
         verbose_name = 'Подписка'
         ordering = ('-author',)
-        constraints = [
+        constraints = (
             models.CheckConstraint(
                 check=models.Q('user' != 'author'),
                 name='Check'
             ),
             models.UniqueConstraint(
-                fields=['user', 'author'],
+                fields=('user', 'author'),
                 name='unique'
             )
-        ]
+        )
